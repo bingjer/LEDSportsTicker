@@ -1,22 +1,23 @@
 #include <Arduino.h>
 #include <FastLED.h>
-
-// put function declarations here:
-int myFunction(int, int);
+#include "Wifi.hpp"
+#include "Secrets.hpp"
+#include "SportsData.hpp"
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
   Serial.begin(11520);
+  while(!Serial) {}
+
 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  Serial.print("test");
-}
+  Wifi::Wifi wifi;
+  wifi.connect(WIFI_HOST, WIFI_PWD);
+  delay(3000);
+  while(true) {
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  SportsData sportsData("https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard");
+  sportsData.getData();
+  }
 }
